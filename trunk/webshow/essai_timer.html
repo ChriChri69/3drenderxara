@@ -1,0 +1,86 @@
+<html>
+<head>
+<script type="text/javascript">
+
+function slideshowMan(listeDivs)
+{
+	if (listeDivs.length == 0) return;
+	
+	var dom =
+	{
+		image : document.getElementById("monimage"),
+		legende : document.getElementById("monimage")
+	};
+	
+	var indexCourant = 0;
+	var timerId = null;
+	var self = this;
+	
+	function afficherImage(index)
+	{
+		dom.image.src = listeDivs[index].image;
+		legende.innerText = listeDivs[index].legende;
+	}
+	
+	afficherImage(0);
+	
+	this.run = function ()
+	{
+		this.stop();
+		
+		function boucle()
+		{
+			afficherImage(indexCourant);
+			if (indexCourant < listeDivs.length - 1)
+			{
+				timerId = window.setTimeout(boucle, listeDivs[indexCourant].temps);
+				indexCourant += 1;
+			}
+			else
+			{
+				self.stop();
+			}
+		}
+		
+		boucle();
+	}
+
+	this.stop = function ()
+	{
+		window.clearTimeout(timerId);
+		indexCourant = 0;
+	}
+}
+
+var slideshow = null;
+
+window.onload = function ()
+{
+	slideshow = new slideshowMan(
+		[
+			{
+				image : "1.jpg",
+				legende : "ceci est PRO²",
+				temps : 3000
+			},
+			{
+				image : "2.png",
+				legende : "ceci est un chat",
+				temps : 3000
+			}
+		]);
+}
+
+</script>
+</head>
+<body>
+
+	<div><a href="javascript://" onclick="if (slideshow) slideshow.run(); return false;">Start</a></div>
+	<div><a href="javascript://" onclick="if (slideshow) slideshow.stop(); return false;">Stop</a></div>
+	<div>
+		<img id="monimage" />
+		<div id="legende"></div>
+	</div>
+
+</body>
+</html>
