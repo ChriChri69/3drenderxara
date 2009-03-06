@@ -1,5 +1,8 @@
 <html>
 <head>
+<link rel="stylesheet" type="text/css" media="all" href="css/style.css" />
+	<script type="text/javascript" src="scripts/scriptaculous/lib/prototype.js"></script>
+	<script type="text/javascript" src="scripts/scriptaculous/src/effects.js"></script>
 <script type="text/javascript">
 
 function slideshowMan(listeDivs)
@@ -18,8 +21,14 @@ function slideshowMan(listeDivs)
 	
 	function afficherImage(index)
 	{
-		dom.image.src = listeDivs[index].image;
-		legende.innerText = listeDivs[index].legende;
+		new Effect.Fade('cadreimage' ,{
+			duration:1,
+			afterFinish: function(){
+				new Effect.Appear('cadreimage',{duration:1});
+				dom.image.src = listeDivs[index].image;
+				legende.innerHTML = listeDivs[index].legende;
+			}
+		})
 	}
 	
 	afficherImage(0);
@@ -61,12 +70,24 @@ window.onload = function ()
 			{
 				image : "pictures/1.jpg",
 				legende : "ceci est PRO²",
-				temps : 3000
+				temps : 4000
 			},
 			{
 				image : "pictures/2.png",
 				legende : "ceci est un chat",
-				temps : 3000
+				temps : 4000
+			}
+			,
+			{
+				image : "pictures/1.jpg",
+				legende : "encore PRO2",
+				temps : 4000
+			}
+			,
+			{
+				image : "pictures/2.png",
+				legende : "ceci est encore un chat",
+				temps : 4000
 			}
 		]);
 }
@@ -75,12 +96,27 @@ window.onload = function ()
 </head>
 <body>
 
-	<div><a href="javascript://" onclick="if (slideshow) slideshow.run(); return false;">Start</a></div>
-	<div><a href="javascript://" onclick="if (slideshow) slideshow.stop(); return false;">Stop</a></div>
-	<div>
-		<img id="monimage" />
-		<div id="legende"></div>
+	<div id="cadreimage">
+		<img id="monimage" class="loadimage" />
+		<div id="legende" class="caption"></div>
 	</div>
-
+	
+	<div style="position:absolute; left:10px; top:10px; z-index:-100;">
+		<object type="application/x-shockwave-flash" 
+			data="player/dewplayer-mini.swf?mp3=music/test.mp3&amp;autostart=1&amp;nopointer=1" 
+			width="80" height="20">
+			<param name="wmode" value="transparent" />
+			<param name="movie" value="player/dewplayer-mini.swf?mp3=music/test.mp3&amp;autostart=1&amp;nopointer=1" />
+		</object>
+	</div>
+	<div style="position:absolute; left:10px; top:10px; z-index:-10; background-color:white; width:100px; height:100px;">
+	&nbsp;
+	</div>
+	
+	<div>
+		<a href="javascript://" onclick="if (slideshow) slideshow.run(); return false;"><img src="icons/media-playback-start.png"/></a>
+		<a href="javascript://" onclick="if (slideshow) slideshow.stop(); return false;"><img src="icons/media-playback-stop.png"/></a>
+	</div>
+	
 </body>
 </html>
